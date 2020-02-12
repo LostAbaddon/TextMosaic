@@ -1,0 +1,22 @@
+{
+	"name": "TextMosaic",
+	"version": "0.0.1",
+	"manifest_version": 2,
+	"description": "Mosaicalize the text.",
+	"icons": {
+		"128": "mosaic.png"
+	},
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"content_scripts": [
+		{
+			"matches": ["*://*/*", "*://*/"],
+			"js": ["content.js"]
+		}
+	],
+	"permissions": ["*://*/*", "*://*/", "activeTab", "clipboardRead", "clipboardWrite"],
+	"browser_action": {
+		"default_icon": "mosaic.png"
+	}
+}
