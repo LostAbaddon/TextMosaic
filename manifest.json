@@ -1,8 +1,10 @@
 {
 	"name": "TextMosaic",
 	"version": "0.0.1",
+	"author": "LostAbaddon",
+	"homepage_url": "https://github.com/LostAbaddon/TextMosaic",
 	"manifest_version": 2,
-	"description": "Mosaicalize the text.",
+	"description": "文本混淆，将任意输入框内的文字进行混淆，保持段落顺序、断句顺序不变，中英文独立混淆。",
 	"icons": {
 		"128": "mosaic.png"
 	},
