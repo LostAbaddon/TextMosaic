@@ -1,5 +1,20 @@
+// Settings
+
+const Shortcuts = {
+	"mosaic": "ctrl+ctrl+ctrl"
+};
+
+// Consts
+
 const UITags = ['input', 'textarea'];
 const ExpSep = /[ \t\r　，。‘’“”《》【】：；—（）￥！？、<>\(\)\[\]\{\}\.,\\\/\?!\&\-\+=$@#`~·…\d的地得a-zA-Z]/gi;
+
+// Common Functions
+
+const wait = () => new Promise(res => setTimeout(res, 0));
+const now = () => Date.now();
+
+// Clipboard
 
 const PastePad = document.createElement('div');
 PastePad.style.display = 'block';
@@ -7,7 +22,55 @@ PastePad.style.opacity = '0';
 PastePad.style.position = 'absolute';
 document.body.appendChild(PastePad);
 
-const wait = () => new Promise(res => setTimeout(res, 0));
+// Shortcuts
+
+const ShortcutMap = {};
+Object.keys(Shortcuts).forEach(name => {
+	var keys = Shortcuts[name];
+	if (!(keys instanceof Array)) keys = keys.split('+');
+	keys = keys.map(key => key.trim().toLowerCase()).filter(key => key.length > 0).join('+');
+	Shortcuts[name] = keys;
+	ShortcutMap[keys] = name;
+});
+
+const ShortcutManager = {};
+const RegiestShortcut = (event, callback) => ShortcutManager[event] = callback;
+
+const ShortcutDelay = 300;
+const ShortcutMin = 2;
+const ShortcutMax = 5;
+const KeyChain = [];
+var lastKeyTime = 0;
+document.body.addEventListener("keydown", evt => {
+	var stamp = now();
+	if (stamp - lastKeyTime > ShortcutDelay) KeyChain.splice(0, KeyChain.length);
+	lastKeyTime = stamp;
+	var key = evt.key.toLowerCase();
+	if (key === 'control') key = 'ctrl';
+	KeyChain.push(key);
+	if (KeyChain.length > ShortcutMax) KeyChain.splice(0, KeyChain.length - ShortcutMax);
+});
+document.body.addEventListener("keyup", evt => {
+	var max = KeyChain.length;
+	if (max < ShortcutMin) return;
+
+	var keys = KeyChain[max - 1];
+	for (let i = 2; i < ShortcutMin; i ++) {
+		keys = KeyChain[max - i] + '+' + keys;
+	}
+	for (let i = ShortcutMin; i <= max; i ++) {
+		keys = KeyChain[max - i] + '+' + keys;
+		let action = ShortcutMap[keys];
+		if (!!action) {
+			KeyChain.splice(0, KeyChain.length);
+			let cb = ShortcutManager[action];
+			if (!!cb) cb();
+			break;
+		}
+	}
+});
+
+// Text-Mosaic
 
 const randomize = list => {
 	var len = list.length;
@@ -25,7 +88,6 @@ const randomize = list => {
 	for (let i = 0; i < len; i ++) result += mid.substr(parts[i], 1);
 	return bra + result + ket;
 };
-
 const findElement = () => {
 	var ele = document.activeElement;
 	if (ele.isContentEditable) return ele;
@@ -118,10 +180,18 @@ var Mosaic1 = () => {
 const Actions = {
 	"1": Mosaic1,
 };
+var lastAction = '1';
 
 chrome.runtime.onMessage.addListener(msg => {
 	if (msg.action !== "launch") return;
 	var action = Actions[msg.level || '1'];
+	if (!action) return;
+	lastAction = msg.level;
+	action();
+});
+
+RegiestShortcut('mosaic', () => {
+	var action = Actions[lastAction];
 	if (!action) return;
 	action();
 });
