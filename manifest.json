@@ -20,5 +20,13 @@
 	"permissions": ["*://*/*", "*://*/", "activeTab", "clipboardRead", "clipboardWrite"],
 	"browser_action": {
 		"default_icon": "mosaic.png"
+	},
+	"commands": {
+		"toggle-mosaic": {
+			"suggested_key": {
+				"default": "Alt+M"
+			},
+			"description": "Let's Mosaic!"
+		}
 	}
 }
