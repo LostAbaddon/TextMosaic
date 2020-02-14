@@ -14,7 +14,7 @@
 	"content_scripts": [
 		{
 			"matches": ["*://*/*", "*://*/"],
-			"js": ["content.js"]
+			"js": ["common.js", "keyseq.js", "content.js"]
 		}
 	],
 	"permissions": ["*://*/*", "*://*/", "activeTab", "clipboardRead", "clipboardWrite"],
