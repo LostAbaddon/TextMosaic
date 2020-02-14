@@ -127,13 +127,3 @@ RegiestKeySeq('ctrl+ctrl+ctrl', () => {
 	if (!action) return;
 	action();
 });
-
-RegiestKeySeq('ctrl+ctrl+ctrl', () => {
-	console.log('3-kill');
-});
-RegiestKeySeq('ctrl+ctrl', () => {
-	console.log('2-kill');
-});
-RegiestKeySeq('ctrl+ctrl+ctrl+ctrl', () => {
-	console.log('4-kill');
-});
