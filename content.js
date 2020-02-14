@@ -88,6 +88,7 @@ const setContent = async (ele, content) => {
 
 var Mosaic1 = () => {
 	var ele = findElement();
+	if (!ele) return;
 
 	var content = getContent(ele);
 	content = content.split('\n').map(line => {
