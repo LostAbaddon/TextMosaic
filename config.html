@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>设置与选项</title>
+<style type="text/css">
+	body {
+		font-size: 14px;
+	}
+	div.title {
+		font-size: 16px;
+		font-weight: bolder;
+	}
+	div.box > p {
+		display: inline-block;
+		margin-left: 10px;
+		margin-right: 10px;
+		cursor: pointer;
+	}
+	div.sepline {
+		display: block;
+		height: 1px;
+		width: 100%;
+		margin-bottom: 10px;
+		background-color: rgb(127, 127, 127);
+	}
+	div.list {
+		max-height: 200px;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+	div.list > div.item {
+		margin: 5px 10px;
+	}
+	div.list > div.item > span.title {
+		display: inline-block;
+		min-width: 100px;
+	}
+	div.list > div.item > input {
+		width: 200px;
+		padding: 2px 5px;
+		border: none;
+		border-bottom: 1px solid rgb(127, 127, 127);
+		outline: none;
+	}
+	div.list > div.item > span.btn {
+		display: inline-block;
+		height: 20px;
+		width: 20px;
+		margin-left: 10px;
+		text-align: center;
+		font-size: 14px;
+		font-weight: bolder;
+		color: rgb(127, 127, 127);
+		border-radius: 50%;
+		box-shadow: 1px 1px 2px rgb(127, 127, 127);
+		cursor: pointer;
+	}
+</style>
+</head>
+<body>
+<div class="title">混淆选项</div>
+<div class="box" name="MosaicTypeList">
+	<p><input type="radio" name="mosaictype" value="1">只乱序</p>
+	<p><input type="radio" name="mosaictype" value="2">替换加乱序</p>
+	<p><input type="radio" name="mosaictype" value="3">替换、乱序、转置</p>
+</div>
+<div class="sepline"></div>
+<div class="title">敏感词表</div>
+<div class="list">
+	<div class="item addnew"><span class="title"><strong>新增</strong></span><input><span class="btn">+</span></div>
+</div>
+
+<script type="text/javascript" src="./common.js"></script>
+<script type="text/javascript" src="./config.js"></script>
+</body>
+</html>

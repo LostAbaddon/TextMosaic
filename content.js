@@ -86,11 +86,7 @@ const setContent = async (ele, content) => {
 	}
 };
 
-var Mosaic1 = () => {
-	var ele = findElement();
-	if (!ele) return;
-
-	var content = getContent(ele);
+const Mosaic1 = (ele, content) => {
 	content = content.split('\n').map(line => {
 		var result = '';
 		var parts = line.split(ExpSep);
@@ -109,9 +105,26 @@ var Mosaic1 = () => {
 
 	setContent(ele, content);
 };
+const Mosaic2 = (ele, content) => {
+	syncstore.get('SensitiveWords', words => {
+		if (!!words) {
+			Object.keys(words).forEach(key => {
+				var reps = words[key];
+				if (isString(reps)) reps = [reps];
+				while (content.indexOf(key) >= 0) {
+					let rep = reps[Math.floor(reps.length * Math.random())];
+					content = content.replace(key, rep);
+				}
+			});
+		}
+
+		Mosaic1(ele, content);
+	});
+};
 
 const Actions = {
 	"1": Mosaic1,
+	"2": Mosaic2,
 };
 var lastAction = '1';
 
@@ -120,11 +133,17 @@ chrome.runtime.onMessage.addListener(msg => {
 	var action = Actions[msg.level || '1'];
 	if (!action) return;
 	lastAction = msg.level;
-	action();
+
+	var ele = findElement();
+	if (!ele) return;
+	action(ele, getContent(ele));
 });
 
 RegiestKeySeq('ctrl+ctrl+ctrl', () => {
 	var action = Actions[lastAction];
 	if (!action) return;
-	action();
+
+	var ele = findElement();
+	if (!ele) return;
+	action(ele, getContent(ele));
 });
