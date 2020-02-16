@@ -20,9 +20,12 @@ const mosaic = list => {
 	mid = randomize(mid);
 	return bra + mid + ket;
 };
-const findElement = () => {
-	var ele = document.activeElement;
-	if (ele.isContentEditable) return ele;
+const findElement = root => {
+	var ele = root.activeElement;
+	if (ele.tagName.toLowerCase() === 'iframe') {
+		return findElement(ele.contentDocument);
+	}
+	else if (ele.isContentEditable) return ele;
 	if (UITags.includes(ele.tagName.toLowerCase())) return ele;
 	return null;
 };
@@ -134,7 +137,7 @@ chrome.runtime.onMessage.addListener(msg => {
 	if (!action) return;
 	lastAction = msg.level;
 
-	var ele = findElement();
+	var ele = findElement(document);
 	if (!ele) return;
 	action(ele, getContent(ele));
 });
@@ -143,7 +146,7 @@ RegiestKeySeq('ctrl+ctrl+ctrl', () => {
 	var action = Actions[lastAction];
 	if (!action) return;
 
-	var ele = findElement();
+	var ele = findElement(document);
 	if (!ele) return;
 	action(ele, getContent(ele));
 });
