@@ -88,16 +88,16 @@ syncstore.get('MosaicType', option => {
 	Actions.encrypt = option.encrypt;
 });
 
-var currentEditor = null;
 const ToggleMosaic = async () => {
 	var ele = findElement(document);
 	if (!ele) return;
-	currentEditor = ele;
 
 	var content = getContent(ele).trim();
 	if (content.length === 0) return;
 
-	chrome.runtime.sendMessage({ 'event': 'TextMosaic', content });
+	chrome.runtime.sendMessage({ 'event': 'TextMosaic', content }, content => {
+		setContent(ele, content);
+	});
 };
 
 chrome.runtime.onMessage.addListener(msg => {
@@ -107,8 +107,6 @@ chrome.runtime.onMessage.addListener(msg => {
 		Actions.encrypt = !! msg.option.encrypt;
 
 		ToggleMosaic();
-	} else if (msg.action === 'mosaic') {
-		setContent(currentEditor, msg.content);
 	}
 });
 

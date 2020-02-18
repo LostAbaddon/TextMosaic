@@ -1,26 +1,3 @@
-const ChangeMosaicType = type => new Promise(res => {
-	syncstore.set('MosaicType', type, () => {
-		chrome.runtime.sendMessage({'event': 'ChangeMosaicType', 'value': type}, () => {
-			res();
-		});
-	});
-});
-
-[].forEach.call(document.querySelectorAll("div[name=MosaicTypeList]>p"), (ele, i) => {
-	ele.addEventListener('click', async () => {
-		await ChangeMosaicType(i + 1);
-		ele.querySelector('input').checked = true;
-	});
-});
-
-syncstore.get('MosaicType', type => {
-	if (!isNumber(type)) type = 1;
-	else if (type < 1) type = 1;
-	else if (type > 3) type = 3;
-	var option = document.querySelectorAll('input[name="mosaictype"]')[type - 1];
-	option.checked = true;
-});
-
 const SensitiveWords = {};
 
 const UpdateSensitiveWords = () => new Promise(res => {

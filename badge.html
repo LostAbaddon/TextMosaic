@@ -5,7 +5,7 @@
 <title>快捷菜单</title>
 <style type="text/css">
 	body {
-		width: 300px;
+		width: 350px;
 		font-size: 14px;
 	}
 	div.title {
@@ -45,6 +45,19 @@
 		box-shadow: inset 0px 0px 3px rgba(127, 127, 127, 0.6);
 		cursor: pointer;
 	}
+	div.box.replacer button {
+		width: 100%;
+		margin: 0px;
+		margin-bottom: 5px;
+	}
+	div.box.replacer > textarea {
+		width: 336px;
+		height: 100px;
+		padding: 5px;
+		margin: 0px;
+		outline: none;
+		resize: none;
+	}
 </style>
 </head>
 <body>
@@ -56,10 +69,11 @@
 	<p></p>
 </div>
 <div class="sepline"></div>
-<div class="title">其它</div>
-<div class="box">
+<div class="box replacer">
+	<textarea name="inputter"></textarea>
+	<button name="LaunchMosaic">混淆</button>
+	<textarea name="result"></textarea>
 </div>
-
 <script type="text/javascript" src="./common.js"></script>
 <script type="text/javascript" src="./badge.js"></script>
 </body>

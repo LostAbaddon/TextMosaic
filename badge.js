@@ -36,3 +36,12 @@ syncstore.get('MosaicType', type => {
 		chrome.runtime.sendMessage({'event': 'ToggleMosaic'});
 	});
 });
+
+document.querySelector('button[name=LaunchMosaic]').addEventListener('click', () => {
+	var content = document.querySelector('textarea[name=inputter]').value;
+	chrome.runtime.sendMessage({ 'event': 'TextMosaic', content }, content => {
+		var ele = document.querySelector('textarea[name=result]');
+		ele.value = content;
+		ele.focus();
+	});
+});
