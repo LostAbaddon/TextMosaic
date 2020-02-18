@@ -1,7 +1,6 @@
 // Consts
 
 const UITags = ['input', 'textarea'];
-const ExpSep = /[ \t\r　，。‘’“”《》【】：；—（）￥！？、<>\(\)\[\]\{\}\.,\\\/\?!\&\-\+=$@#`~·…\d的地得a-zA-Z]/gi;
 
 // Clipboard
 
@@ -13,13 +12,6 @@ document.body.appendChild(PastePad);
 
 // Text-Mosaic
 
-const mosaic = list => {
-	var len = list.length;
-	if (len <= 3) return list;
-	var bra = list.substr(0, 1), ket = list.substr(len - 1, 1), mid = list.substring(1, len - 1);
-	mid = randomize(mid);
-	return bra + mid + ket;
-};
 const findElement = root => {
 	var ele = root.activeElement;
 	if (ele.tagName.toLowerCase() === 'iframe') {
@@ -96,63 +88,28 @@ syncstore.get('MosaicType', option => {
 	Actions.encrypt = option.encrypt;
 });
 
-const ReplaceSensWords = (content, cb) => new Promise(async res => {
-	let words = await syncstore.get('SensitiveWords');
-	if (!!words) {
-		Object.keys(words).forEach(key => {
-			var reps = words[key];
-			if (isString(reps)) reps = [reps];
-			while (content.indexOf(key) >= 0) {
-				let rep = reps[Math.floor(reps.length * Math.random())];
-				content = content.replace(key, rep);
-			}
-		});
-	}
-	if (!!cb) cb(content);
-	res(content);
-});
-const RearrangeArticle = content => {
-	content = content.split('\n').map(line => {
-		var result = '';
-		var parts = line.split(ExpSep);
-		parts.forEach(l => {
-			var len = l.length;
-			if (len > 0) l = mosaic(l);
-			var sep = line.substr(result.length + len, 1);
-			result = result + l + sep;
-		});
-		result = result.replace(/[a-zA-Z]+/gi, match => {
-			return mosaic(match);
-		});
-		return result;
-	});
-	content = content.join('\n');
-
-	return content;
-};
-
+var currentEditor = null;
 const ToggleMosaic = async () => {
 	var ele = findElement(document);
 	if (!ele) return;
+	currentEditor = ele;
 
-	var content = getContent(ele);
-	console.log(Actions);
+	var content = getContent(ele).trim();
+	if (content.length === 0) return;
 
-	if (Actions.replace) content = await ReplaceSensWords(content);
-	if (Actions.rearrange) content = RearrangeArticle(content);
-
-	setContent(ele, content);
+	chrome.runtime.sendMessage({ 'event': 'TextMosaic', content });
 };
 
 chrome.runtime.onMessage.addListener(msg => {
-	if (msg.action !== "launch") return;
-	console.log(msg.option);
+	if (msg.action === 'launch') {
+		Actions.replace = !! msg.option.replace;
+		Actions.rearrange = !! msg.option.rearrange;
+		Actions.encrypt = !! msg.option.encrypt;
 
-	Actions.replace = !! msg.option.replace;
-	Actions.rearrange = !! msg.option.rearrange;
-	Actions.encrypt = !! msg.option.encrypt;
-
-	ToggleMosaic();
+		ToggleMosaic();
+	} else if (msg.action === 'mosaic') {
+		setContent(currentEditor, msg.content);
+	}
 });
 
 RegiestKeySeq('ctrl+ctrl+ctrl', ToggleMosaic);
