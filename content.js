@@ -89,7 +89,29 @@ const setContent = async (ele, content) => {
 	}
 };
 
-const Mosaic1 = (ele, content) => {
+const Actions = { rearrange: true };
+syncstore.get('MosaicType', option => {
+	Actions.replace = option.replace;
+	Actions.rearrange = option.rearrange;
+	Actions.encrypt = option.encrypt;
+});
+
+const ReplaceSensWords = (content, cb) => new Promise(async res => {
+	let words = await syncstore.get('SensitiveWords');
+	if (!!words) {
+		Object.keys(words).forEach(key => {
+			var reps = words[key];
+			if (isString(reps)) reps = [reps];
+			while (content.indexOf(key) >= 0) {
+				let rep = reps[Math.floor(reps.length * Math.random())];
+				content = content.replace(key, rep);
+			}
+		});
+	}
+	if (!!cb) cb(content);
+	res(content);
+});
+const RearrangeArticle = content => {
 	content = content.split('\n').map(line => {
 		var result = '';
 		var parts = line.split(ExpSep);
@@ -106,47 +128,31 @@ const Mosaic1 = (ele, content) => {
 	});
 	content = content.join('\n');
 
+	return content;
+};
+
+const ToggleMosaic = async () => {
+	var ele = findElement(document);
+	if (!ele) return;
+
+	var content = getContent(ele);
+	console.log(Actions);
+
+	if (Actions.replace) content = await ReplaceSensWords(content);
+	if (Actions.rearrange) content = RearrangeArticle(content);
+
 	setContent(ele, content);
 };
-const Mosaic2 = (ele, content) => {
-	syncstore.get('SensitiveWords', words => {
-		if (!!words) {
-			Object.keys(words).forEach(key => {
-				var reps = words[key];
-				if (isString(reps)) reps = [reps];
-				while (content.indexOf(key) >= 0) {
-					let rep = reps[Math.floor(reps.length * Math.random())];
-					content = content.replace(key, rep);
-				}
-			});
-		}
-
-		Mosaic1(ele, content);
-	});
-};
-
-const Actions = {
-	"1": Mosaic1,
-	"2": Mosaic2,
-};
-var lastAction = '1';
 
 chrome.runtime.onMessage.addListener(msg => {
 	if (msg.action !== "launch") return;
-	var action = Actions[msg.level || '1'];
-	if (!action) return;
-	lastAction = msg.level;
+	console.log(msg.option);
 
-	var ele = findElement(document);
-	if (!ele) return;
-	action(ele, getContent(ele));
+	Actions.replace = !! msg.option.replace;
+	Actions.rearrange = !! msg.option.rearrange;
+	Actions.encrypt = !! msg.option.encrypt;
+
+	ToggleMosaic();
 });
 
-RegiestKeySeq('ctrl+ctrl+ctrl', () => {
-	var action = Actions[lastAction];
-	if (!action) return;
-
-	var ele = findElement(document);
-	if (!ele) return;
-	action(ele, getContent(ele));
-});
+RegiestKeySeq('ctrl+ctrl+ctrl', ToggleMosaic);

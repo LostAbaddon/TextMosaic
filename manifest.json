@@ -1,15 +1,25 @@
 {
 	"name": "TextMosaic",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"author": "LostAbaddon",
 	"homepage_url": "https://github.com/LostAbaddon/TextMosaic",
 	"manifest_version": 2,
 	"description": "文本混淆，将任意输入框内的文字进行混淆，保持段落顺序、断句顺序不变，中英文独立混淆。",
+	"permissions": ["clipboardRead", "clipboardWrite", "storage"],
 	"icons": {
 		"128": "mosaic.png"
 	},
 	"background": {
 		"scripts": ["common.js", "background.js"]
+	},
+	"browser_action": {
+		"default_title": "Text Mosaic",
+		"default_icon": "mosaic.png",
+		"default_popup": "badge.html"
+	},
+	"options_ui": {
+		"page": "config.html",
+		"open_in_tab": false
 	},
 	"content_scripts": [
 		{
@@ -17,14 +27,6 @@
 			"js": ["common.js", "keyseq.js", "content.js"]
 		}
 	],
-	"permissions": ["clipboardRead", "clipboardWrite", "storage"],
-	"browser_action": {
-		"default_icon": "mosaic.png"
-	},
-	"options_ui": {
-		"page": "config.html",
-		"open_in_tab": false
-	},
 	"commands": {
 		"toggle-mosaic": {
 			"suggested_key": {

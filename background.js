@@ -1,11 +1,5 @@
-var MosaicType = 1;
+var MosaicType = { rearrange: true };
 
-const ToggleMosaic = tabID => {
-	chrome.tabs.sendMessage(tabID, {
-		action: "launch",
-		level: MosaicType
-	});
-};
 const DefaultSensitiveWords = {
 	"政府": "振幅",
 	"警察": "敬茶",
@@ -14,28 +8,32 @@ const DefaultSensitiveWords = {
 };
 
 syncstore.get('MosaicType', type => {
-	if (!isNumber(type)) type = 1;
-	else if (type < 1) type = 1;
-	else if (type > 3) type = 3;
 	MosaicType = type;
 });
-syncstore.set({'SensitiveWords': DefaultSensitiveWords});
-
-chrome.browserAction.onClicked.addListener(tab => {
-	ToggleMosaic(tab.id);
+syncstore.get('SensitiveWords', type => {
+	if (!type || Object.keys(type).length === 0) syncstore.set({'SensitiveWords': DefaultSensitiveWords});
 });
+
+const ToggleMosaic = tabID => {
+	chrome.tabs.getSelected(tab => {
+		chrome.tabs.sendMessage(tab.id, {
+			action: "launch",
+			option: MosaicType
+		});
+	});
+};
 
 chrome.commands.onCommand.addListener(cmd => {
 	if (cmd === 'toggle-mosaic') {
-		chrome.tabs.getSelected(tab => {
-			ToggleMosaic(tab.id);
-		});
+		ToggleMosaic();
 	}
 });
 
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
 	if (msg.event === 'ChangeMosaicType') {
-		MosaicType = msg.value;
+		MosaicType[msg.option] = msg.value;
+		response();
+	} else if (msg.event === 'ToggleMosaic') {
+		ToggleMosaic();
 	}
-	response();
 });
