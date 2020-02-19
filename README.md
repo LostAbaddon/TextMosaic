@@ -2,9 +2,9 @@
 
 将文本打乱给的小工具
 
-**版本**： 0.0.2
-**作者**： [LostAbaddon](mailto:lostabaddon@gmail.com)
-**网址**： [GitHub](https://github.com/LostAbaddon/TextMosaic)
+- **版本**： 0.0.4
+- **作者**： [LostAbaddon](mailto:lostabaddon@gmail.com)
+- **网址**： [GitHub](https://github.com/LostAbaddon/TextMosaic)
 
 ## 打乱规则
 
@@ -31,7 +31,7 @@
 -	快捷键：Alt+M
 -	键组触发：快速三下ctrl
 
-插件内混淆：点击Badge后在下方输入内容。
+插件内混淆：点击Badge后在下方输入内容，也可选择进行解密。
 
 可在插件选项页（右键Badge或在插件管理页可看到）中选择混淆方式：
 
@@ -41,7 +41,8 @@
 
 ## 下一步
 
--	横竖排转置
+-	横竖排转置（可能会做）
+-	对当前页内容快捷键解密
 -	推特、脸书等的输入框不能自动替换已有文字
 
 ## 祝使用愉快
