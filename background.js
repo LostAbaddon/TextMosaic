@@ -179,5 +179,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 		ToggleMosaic(sender.tab);
 	} else if (msg.event === 'TextMosaic') {
 		response(TextMosaic(msg.content));
+	} else if (msg.event === 'SimpleDecrypt') {
+		response(SimpleDecrypt(msg.content));
 	}
 });

@@ -45,10 +45,23 @@
 		box-shadow: inset 0px 0px 3px rgba(127, 127, 127, 0.6);
 		cursor: pointer;
 	}
-	div.box.replacer button {
+	div.box.replacer p.buttons {
+		display: block;
 		width: 100%;
+		padding: 0px;
 		margin: 0px;
 		margin-bottom: 5px;
+	}
+	div.box.replacer button {
+		display: inline-block;
+		width: 50%;
+		height: 25px;
+		box-sizing: border-box;
+		margin: 0px;
+		padding: 0px;
+	}
+	div.box.replacer button:last-child {
+		float: right;
 	}
 	div.box.replacer > textarea {
 		width: 336px;
@@ -71,7 +84,10 @@
 <div class="sepline"></div>
 <div class="box replacer">
 	<textarea name="inputter"></textarea>
-	<button name="LaunchMosaic">混淆</button>
+	<p class="buttons">
+		<button name="LaunchMosaic">混淆</button>
+		<button name="LaunchDecrypt">解码</button>
+	</p>
 	<textarea name="result"></textarea>
 </div>
 <script type="text/javascript" src="./common.js"></script>

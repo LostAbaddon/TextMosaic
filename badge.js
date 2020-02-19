@@ -45,3 +45,11 @@ document.querySelector('button[name=LaunchMosaic]').addEventListener('click', ()
 		ele.focus();
 	});
 });
+document.querySelector('button[name=LaunchDecrypt]').addEventListener('click', () => {
+	var content = document.querySelector('textarea[name=inputter]').value;
+	chrome.runtime.sendMessage({ 'event': 'SimpleDecrypt', content }, content => {
+		var ele = document.querySelector('textarea[name=result]');
+		ele.value = content;
+		ele.focus();
+	});
+});
