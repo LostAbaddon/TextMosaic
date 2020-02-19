@@ -2,7 +2,7 @@
 
 将文本打乱给的小工具
 
-- **版本**： 0.0.4
+- **版本**： 0.1.0
 - **作者**： [LostAbaddon](mailto:lostabaddon@gmail.com)
 - **网址**： [GitHub](https://github.com/LostAbaddon/TextMosaic)
 
@@ -43,6 +43,5 @@
 
 -	横竖排转置（可能会做）
 -	对当前页内容快捷键解密
--	推特、脸书等的输入框不能自动替换已有文字
 
 ## 祝使用愉快

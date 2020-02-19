@@ -2,14 +2,6 @@
 
 const UITags = ['input', 'textarea'];
 
-// Clipboard
-
-const PastePad = document.createElement('div');
-PastePad.style.display = 'block';
-PastePad.style.opacity = '0';
-PastePad.style.position = 'absolute';
-document.body.appendChild(PastePad);
-
 // Text-Mosaic
 
 const findElement = root => {
@@ -54,19 +46,9 @@ const setContent = async (ele, content) => {
 		if (range.toString().trim().length === 0) {
 			range.selectNodeContents(ele);
 		}
-		content = '<p>' + content.split('\n').join('</p><p>') + '</p>';
-		PastePad.innerHTML = content;
-		let temp = document.createRange();
-		temp.selectNodeContents(PastePad);
-		selection.removeAllRanges();
-		selection.addRange(temp);
-		await wait();
-		document.execCommand('copy');
-		await wait();
-		selection.removeAllRanges();
-		selection.addRange(range);
+
+		await navigator.clipboard.writeText(content);
 		document.execCommand('paste');
-		PastePad.innerHTML = '';
 	} else {
 		let start = ele.selectionStart, end = ele.selectionEnd;
 		if (start === end) {
