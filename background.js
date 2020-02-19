@@ -2,7 +2,7 @@ var MosaicType = { rearrange: true };
 var SensWords = {};
 var Encryptor = '';
 
-const ExpSep = /[ \t\r　，。‘’“”《》【】：；—（）￥！？、<>\(\)\[\]\{\}\.,\\\/\?!\&\-\+=$@#`'"~·…\d的地得a-zA-Z]/gi;
+const ExpSep = /[ \t\r　，。‘’“”《》【】：；—（）￥！？、<>\(\)\[\]\{\}\.,\\\/\?!\&\-\+=$@#`'"~·…\da-zA-Z]/gi;
 const DefaultSensitiveWords = {
 	"政府": "振幅",
 	"警察": "敬茶",
@@ -46,7 +46,6 @@ chrome.storage.sync.onChanged.addListener(item => {
 			SensWords = item[key].newValue;
 		} else if (key === 'SimplePassword') {
 			Encryptor = item[key].newValue;
-			console.log(Encryptor);
 		}
 	});
 });

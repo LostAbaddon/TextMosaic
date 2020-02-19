@@ -93,3 +93,56 @@ chrome.runtime.onMessage.addListener(msg => {
 });
 
 RegiestKeySeq('ctrl+ctrl+ctrl', ToggleMosaic);
+
+const RegTarget = /[a-zA-Z0-9\+=]{10,}/g;
+const TargetTag = ['div', 'p', 'span', 'article', 'section', 'blockquote'];
+const findTargets = root => {
+	[].forEach.call(root.children, ele => {
+		if (!TargetTag.includes(ele.tagName.toLowerCase())) return;
+		if (ele.children.length === 0) {
+			let text = ele.innerHTML.replace(/^[ \n\r\t]+/gi, '').replace(/[ \n\r\t]+$/gi, '');
+			if (text.length === 0) return;
+			let match = text.match(RegTarget);
+			if (!match) return;
+			let tasks = match.length;
+			if (tasks === 0) return;
+			let map = {};
+			match.forEach(reg => {
+				chrome.runtime.sendMessage({ 'event': 'SimpleDecrypt', content: reg }, content => {
+					if (!!content) {
+						let codes = content.split('').map(w => w.charCodeAt(0));
+						let notValid = codes.some(c => {
+							if (c < 0 || c > 256) return false;
+							if (c >= 127 || c < 32) return true;
+							return false;
+						});
+						if (!notValid) map[reg] = content;
+					}
+					tasks --;
+					if (tasks === 0) {
+						match.forEach(line => {
+							var rep = map[line];
+							if (!rep) return;
+							while (text.indexOf(line) >= 0) {
+								text = text.replace(line, rep);
+							}
+						});
+						ele.innerHTML = text;
+					}
+				});
+			});
+			console.log(text, match);
+		} else {
+			findTargets(ele);
+		}
+	});
+};
+
+syncstore.get('AutoDecrypt', auto => {
+	if (auto === undefined) {
+		auto = false;
+		syncstore.set('AutoDecrypt', false);
+	}
+
+	if (auto) findTargets(document.body);
+});

@@ -26,14 +26,27 @@ syncstore.get('MosaicType', type => {
 		var input = ele.querySelector('input');
 		var name = Object.keys(MosaicType)[i];
 		input.checked = MosaicType[name];
-		ele.addEventListener('click', async () => {
-			input.checked = !input.checked;
-			await ChangeMosaicType(name, input.checked);
+		ele.addEventListener('click', event => {
+			if (event.target.tagName.toLowerCase() !== 'input') input.checked = !input.checked;
+			ChangeMosaicType(name, input.checked);
 		});
 	});
 
 	document.querySelector('button[name=ToggleMosaic]').addEventListener('click', () => {
 		chrome.runtime.sendMessage({'event': 'ToggleMosaic'});
+	});
+});
+
+syncstore.get('AutoDecrypt', auto => {
+	if (auto === undefined) {
+		auto = false;
+		syncstore.set('AutoDecrypt', false);
+	}
+	var ele = document.querySelector('p[name=AutoDecrypt]>input');
+	ele.checked = auto;
+	document.querySelector('p[name=AutoDecrypt]').addEventListener('click', event => {
+		if (event.target.tagName.toLowerCase() !== 'input') ele.checked = !ele.checked;
+		syncstore.set('AutoDecrypt', ele.checked);
 	});
 });
 
