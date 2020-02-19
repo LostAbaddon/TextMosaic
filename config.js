@@ -3,7 +3,9 @@ const SensitiveWords = {};
 const UpdateSensitiveWords = () => new Promise(res => {
 	syncstore.set({'SensitiveWords': SensitiveWords}, res);
 });
-
+const UpdatePWD = () => {
+	syncstore.set('SimplePassword', pwdUI.value);
+};
 const addNewItem = async () => {
 	var item = document.querySelector('div.item.addnew > input');
 	var word = item.value.toString().trim();
@@ -51,6 +53,7 @@ const generateWordItem = (pad, key, focus=false) => {
 	pad.appendChild(line);
 	if (focus) input.focus();
 };
+const pwdUI = document.querySelector('input[name=pwd]');
 
 document.querySelector('div.item.addnew > input').addEventListener('keydown', evt => {
 	if (evt.key.toLowerCase() !== 'enter') return;
@@ -64,4 +67,12 @@ syncstore.get('SensitiveWords', words => {
 		SensitiveWords[key] = words[key];
 		generateWordItem(pad, key);
 	});
+});
+syncstore.get('SimplePassword', pwd => {
+	if (!pwd) pwd = '';
+	pwdUI.value = pwd;
+});
+pwdUI.addEventListener('blur', UpdatePWD);
+pwdUI.addEventListener('keydown', evt => {
+	if (evt.key.toLowerCase() === 'enter') UpdatePWD();
 });

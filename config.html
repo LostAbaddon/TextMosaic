@@ -50,9 +50,26 @@
 		box-shadow: 1px 1px 2px rgb(127, 127, 127);
 		cursor: pointer;
 	}
+	div.box.password > div.line {
+		padding: 0px;
+		margin: 10px 0px;
+	}
+	div.box.password > div.line > input {
+		width: 100%;
+		padding: 2px 5px;
+		box-sizing: border-box;
+		outline: none;
+		border: none;
+		border-bottom: 1px solid rgb(127, 127, 127);
+	}
 </style>
 </head>
 <body>
+<div class="box password">
+	<div class="title">设置密码</div>
+	<div class="line"><input type="password" name="pwd"></div>
+</div>
+<div class="sepline"></div>
 <div class="title">敏感词表</div>
 <div class="list">
 	<div class="item addnew"><span class="title"><strong>新增</strong></span><input><span class="btn">+</span></div>
