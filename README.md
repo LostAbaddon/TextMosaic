@@ -1,8 +1,8 @@
-# TextMosaic
+# TextMosaic & ArticleUtils
 
-将文本打乱给的小工具
+将文本打乱给的小工具；一些其它和内容相关的小工具合集。
 
-- **版本**： 0.1.1
+- **版本**： 1.0.0
 - **作者**： [LostAbaddon](mailto:lostabaddon@gmail.com)
 - **网址**： [GitHub](https://github.com/LostAbaddon/TextMosaic)
 
@@ -48,10 +48,6 @@
 
 1.	Badge中选择自动解码的话，将自动使用当前密码进行解码，对于解码成功的文本会自动进行替换；
 2.	如果Badge中没选择自动解码，则可以手段选择文本复制到Badge中进行解码。
-
-## 下一步
-
--	横竖排转置（可能会做）
--	对当前页内容快捷键解密
+3.	在页面快速按下键组“ctrl+ctrl+d”，可自动将当前页所有可识别的密文解密（使用当前设置的密码）
 
 ## 祝使用愉快

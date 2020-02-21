@@ -1,6 +1,6 @@
 // Common Functions
 
-window.wait = () => new Promise(res => setTimeout(res, 0));
+window.wait = (delay=0) => new Promise(res => setTimeout(res, delay));
 window.now = () => Date.now();
 window.isString = str => (typeof str === 'string') || (str instanceof String);
 window.isNumber = num => ((typeof num === 'number') || (num instanceof Number)) && !isNaN(num);
@@ -18,6 +18,8 @@ window.randomize = array => {
 	if (isStr) result = result.join('');
 	return result;
 };
+
+window.newEle = tagName => document.createElement(tagName);
 
 window.store = {
 	set: (key, value, cb) => new Promise(res => {

@@ -162,6 +162,23 @@ const RearrangeArticle = content => {
 	return content;
 };
 
+chrome.contextMenus.create({
+	id: 'simple-decrypt',
+	title: '解码(ctrl+ctrl+ctrl+d)',
+	contexts: [ 'selection' ]
+});
+chrome.contextMenus.onClicked.addListener(evt => {
+	switch (evt.menuItemId) {
+		case 'simple-decrypt':
+			chrome.tabs.getSelected(tab => {
+				chrome.tabs.sendMessage(tab.id, {
+					action: "SimpleDecryptLaunchFromContextMenu"
+				});
+			});
+		break;
+	}
+});
+
 chrome.commands.onCommand.addListener(cmd => {
 	if (cmd === 'toggle-mosaic') {
 		chrome.tabs.getSelected(tab => {

@@ -17,11 +17,11 @@ const addNewItem = async () => {
 	item.value = '';
 };
 const generateWordItem = (pad, key, focus=false) => {
-	var line = document.createElement('div');
+	var line = newEle('div');
 	line.classList.add('item');
 	line.innerHTML = '<span class="title">' + key + '</span>';
 
-	var input = document.createElement('input');
+	var input = newEle('input');
 	input.value = (isString(SensitiveWords[key]) ? [SensitiveWords[key]] : SensitiveWords[key]).join(', ');
 	var inputBlur = () => {
 		var list = input.value.toString().split(/[, ，] */).map(w => w.trim()).filter(w => w.length > 0);
@@ -39,7 +39,7 @@ const generateWordItem = (pad, key, focus=false) => {
 	input.addEventListener('keydown', inputChange)
 	line.appendChild(input);
 
-	var del = document.createElement('span');
+	var del = newEle('span');
 	del.classList.add('btn');
 	del.innerHTML = '—';
 	var clickDel = async () => {
