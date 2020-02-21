@@ -1,4 +1,6 @@
 (() => {
+	if (!!window.RegiestKeySeq) return;
+
 	const ShortcutDelay = 250;
 	const ShortcutMin = 2;
 	const ShortcutMax = 10;
