@@ -1,6 +1,6 @@
-# TextMosaic & ArticleUtils
+# TextMosaic
 
-将文本打乱给的小工具；一些其它和内容相关的小工具合集。
+将文本打乱给的小工具
 
 - **版本**： 1.0.0
 - **作者**： [LostAbaddon](mailto:lostabaddon@gmail.com)

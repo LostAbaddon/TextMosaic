@@ -1,5 +1,5 @@
 {
-	"name": "文字与内容工具集",
+	"name": "文字混淆工具",
 	"version": "1.0.0",
 	"author": "LostAbaddon",
 	"homepage_url": "https://github.com/LostAbaddon/TextMosaic",
@@ -13,7 +13,7 @@
 		"scripts": ["common.js", "background.js"]
 	},
 	"browser_action": {
-		"default_title": "文字与内容工具集",
+		"default_title": "文字混淆",
 		"default_icon": "mosaic.png",
 		"default_popup": "badge.html"
 	},
