@@ -1,5 +1,24 @@
 (() => {
+	var injected = [].some.call(document.querySelectorAll('script'), s => {
+		return s.src.indexOf('/keyseq.js') >= 0;
+	});
+	console.log('TextMosaic:', injected);
+
 	var loaded = false;
+
+	window.addEventListener('message', msg => {
+		msg = msg.data;
+		if (!msg) return;
+		if (msg.event === 'KeySeqLoaded') {
+			loaded = true;
+			Prepares.forEach(item => {
+				window.postMessage({ event: "RegisterKeySeq", keyseq: item[0], action: item[1] }, location.origin);
+			});
+			Prepares.splice(0, Prepares.length);
+		} else if (msg.event === 'ToggleKeySeq') {
+			ToggleAction(msg.action);
+		}
+	});
 
 	const Actions = {};
 	const Prepares = [];
@@ -22,16 +41,6 @@
 			Prepares.push([keyseq, action]);
 		}
 	};
-	window.addEventListener('message', msg => {
-		msg = msg.data;
-		if (!msg || msg.event !== 'ToggleKeySeq') return;
-		ToggleAction(msg.action);
-	});
-	loadJS(chrome.extension.getURL('keyseq.js'), () => {
-		loaded = true;
-		Prepares.forEach(item => {
-			window.postMessage({ event: "RegisterKeySeq", keyseq: item[0], action: item[1] }, location.origin);
-		});
-		Prepares.splice(0, Prepares.length);
-	});
+
+	if (!injected) loadJS(chrome.extension.getURL('keyseq.js'));
 }) ();

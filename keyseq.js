@@ -24,6 +24,15 @@
 		lastAction = setTimeout(action, ShortcutDelay);
 	};
 
+	const launchAction = actions => {
+		actions.forEach(action => {
+			window.postMessage({
+				event: "ToggleKeySeq",
+				action: action
+			}, location.origin);
+		});
+	};
+
 	document.body.addEventListener("keydown", evt => {
 		if (!evt.key) return;
 
@@ -69,10 +78,24 @@
 			if (!!targetAction) {
 				shouldStop = true;
 				KeyChain.splice(0, KeyChain.length);
-				targetAction();
+				launchAction(targetAction);
 			}
 		});
 	});
 
-	window.RegiestKeySeq = (event, callback) => ShortcutManager[event] = callback;
+	window.RegiestKeySeq = (keyseq, action) => {
+		var actions = ShortcutManager[keyseq];
+		if (!actions) {
+			actions = [];
+			ShortcutManager[keyseq] = actions;
+		}
+		actions.push(action);
+	};
+	window.addEventListener('message', msg => {
+		if (!!msg.data && msg.data.event === "RegisterKeySeq") {
+			RegiestKeySeq(msg.data.keyseq, msg.data.action);
+		}
+	});
+
+	window.postMessage({ event: "KeySeqLoaded" }, location.origin);
 })();
