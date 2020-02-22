@@ -25,6 +25,8 @@
 	};
 
 	document.body.addEventListener("keydown", evt => {
+		if (!evt.key) return;
+
 		var stamp = now();
 		if (stamp - lastKeyTime > ShortcutDelay) KeyChain.splice(0, KeyChain.length);
 		lastKeyTime = stamp;
@@ -35,6 +37,8 @@
 		shouldStop = false;
 	});
 	document.body.addEventListener("keyup", evt => {
+		if (!evt.key) return;
+
 		if (!shouldStop) {
 			KeyChain.push(')');
 		} else {
