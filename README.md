@@ -2,7 +2,7 @@
 
 将文本打乱给的小工具
 
-- **版本**： 1.0.0
+- **版本**： 1.0.1
 - **作者**： [LostAbaddon](mailto:lostabaddon@gmail.com)
 - **网址**： [GitHub](https://github.com/LostAbaddon/TextMosaic)
 

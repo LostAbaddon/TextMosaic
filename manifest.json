@@ -1,6 +1,6 @@
 {
 	"name": "文字混淆工具",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "LostAbaddon",
 	"homepage_url": "https://github.com/LostAbaddon/TextMosaic",
 	"manifest_version": 2,
@@ -10,7 +10,7 @@
 		"128": "mosaic.png"
 	},
 	"background": {
-		"scripts": ["common.js", "background.js"]
+		"scripts": ["common.js", "string.js", "background.js"]
 	},
 	"browser_action": {
 		"default_title": "文字混淆",
@@ -24,7 +24,7 @@
 	"content_scripts": [
 		{
 			"matches": ["*://*/*", "*://*/"],
-			"js": ["common.js", "keyseq.js", "content.js"]
+			"js": ["common.js", "string.js", "keyseq.js", "content.js"]
 		}
 	],
 	"commands": {
