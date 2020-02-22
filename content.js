@@ -238,14 +238,13 @@ const findTargets = root => {
 			match.forEach(reg => {
 				chrome.runtime.sendMessage({ 'event': 'SimpleDecrypt', content: reg }, content => {
 					if (!!content) {
-						// let codes = content.split('').map(w => w.charCodeAt(0));
-						// let notValid = codes.some((c, i) => {
-						// 	if (c < 0 || c > 256) return false;
-						// 	if (c >= 127 || (c < 32 && c !== 10 & c !== 13)) return true;
-						// 	return false;
-						// });
-						// if (!notValid) map[reg] = content;
-						map[reg] = content;
+						let codes = content.split('').map(w => w.charCodeAt(0));
+						let notValid = codes.some((c, i) => {
+							if (c < 0 || c > 256) return false;
+							if (c >= 127 || (c < 32 && c !== 10 & c !== 13)) return true;
+							return false;
+						});
+						if (!notValid) map[reg] = content;
 					}
 					tasks --;
 					if (tasks === 0) {
