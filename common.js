@@ -24,6 +24,13 @@
 	};
 
 	root.newEle = tagName => document.createElement(tagName);
+	root.loadJS = (src, callback) => {
+		var script = newEle('script');
+		script.type = 'text/javascript';
+		script.src = src;
+		if (!!callback) script.onload = callback;
+		document.body.appendChild(script);
+	};
 
 	root.store = {
 		set: (key, value, cb) => new Promise(res => {

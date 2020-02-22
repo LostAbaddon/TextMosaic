@@ -219,7 +219,7 @@ chrome.runtime.onMessage.addListener(msg => {
 	}
 });
 
-RegiestKeySeq('ctrl+ctrl+ctrl', ToggleMosaic);
+RegiestKeySeq('ctrl+ctrl+ctrl', 'TextMosaic', ToggleMosaic);
 
 // const RegTarget = /[a-zA-Z0-9\+=]{10,}/g;
 const RegTarget = new RegExp('[' + BaseX.join('') + ']{10,}', "g");
@@ -274,12 +274,12 @@ syncstore.get('AutoDecrypt', auto => {
 	if (auto) findTargets(document.body);
 });
 
-RegiestKeySeq('ctrl+ctrl+ctrl+d', () => {
+RegiestKeySeq('ctrl+ctrl+ctrl+d', 'DecryptPage', () => {
 	findTargets(document.body);
 });
-RegiestKeySeq('ctrl+ctrl+d', () => {
+RegiestKeySeq('ctrl+ctrl+d', 'DecryptSelection', () => {
 	ToggleSimpleDecryptForSelection();
 });
-RegiestKeySeq('ctrl+ctrl+x', () => {
+RegiestKeySeq('ctrl+ctrl+x', 'ShowCryption', () => {
 	ShowCryption('', '');
 });

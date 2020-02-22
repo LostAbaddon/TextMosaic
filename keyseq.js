@@ -27,7 +27,7 @@
 	document.body.addEventListener("keydown", evt => {
 		if (!evt.key) return;
 
-		var stamp = now();
+		var stamp = Date.now();
 		if (stamp - lastKeyTime > ShortcutDelay) KeyChain.splice(0, KeyChain.length);
 		lastKeyTime = stamp;
 

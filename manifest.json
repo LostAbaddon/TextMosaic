@@ -1,11 +1,12 @@
 {
 	"name": "文字混淆工具",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"author": "LostAbaddon",
 	"homepage_url": "https://github.com/LostAbaddon/TextMosaic",
 	"manifest_version": 2,
 	"description": "文本混淆，将任意输入框内的文字进行混淆，保持段落顺序、断句顺序不变，中英文独立混淆。",
 	"permissions": ["clipboardRead", "clipboardWrite", "storage", "contextMenus"],
+	"web_accessible_resources": [ "keyseq.js" ],
 	"icons": {
 		"128": "mosaic.png"
 	},
@@ -24,7 +25,7 @@
 	"content_scripts": [
 		{
 			"matches": ["*://*/*", "*://*/"],
-			"js": ["common.js", "string.js", "keyseq.js", "content.js"]
+			"js": ["common.js", "string.js", "keyseq_content.js", "content.js"]
 		}
 	],
 	"commands": {
